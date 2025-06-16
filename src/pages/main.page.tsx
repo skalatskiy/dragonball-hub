@@ -1,32 +1,60 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getAllCharacters } from "@/services/characters.service";
+import { 
+    getAllCharacters as apiGetAllCharacters,
+    searchCharacters as apiSearchCharacters
+} from "@/services/characters.service";
 import type { Character } from "@/schemas/character.interface";
+import CharacterSearch from "@/components/character-search/character-search.component";
+import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
 
 
 export default function MainPage() {
     const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+    const [searchData, setSearchData] = useState<CharacterSearchQuery | undefined>();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [characters, setCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
-    setLoading(true);
+        console.log('useEffect - searchData: ', searchData);
+        setLoading(true);
 
-    getAllCharacters()
-        .then(setCharacters)
-        .catch(error => setError(error.message))
-        .finally(() => setLoading(false));
-    }, [])
+        if (searchData) {
+            searchCharacters(searchData);
+        } else {
+            getAllCharacters();
+        }
+        
+    }, [searchData]);
+
+    const searchCharacters = async (searchData: CharacterSearchQuery) => {
+        apiSearchCharacters(searchData)
+            .then(setCharacters)
+            .catch(error => setError(error.message))
+            .finally(() => setLoading(false));
+    }  
+
+    const getAllCharacters = async () => {
+        apiGetAllCharacters()
+            .then(setCharacters)
+            .catch(error => setError(error.message))
+            .finally(() => setLoading(false));
+    }      
+
+    const onSearch = (searchData?: CharacterSearchQuery) => {
+        setSearchData(searchData);
+        setIsSearchOpen(false);
+    }
 
     if (loading) {
         return 'Loading...'
     }
 
     if (error) {
-        return `There have been an error:  ${error}`
+        return `There has been an error:  ${error}`
     }
 
     return (
@@ -38,9 +66,11 @@ export default function MainPage() {
             </div>
 
             {isSearchOpen && (
-                <div>
-                    Search form
-                </div>
+                <CharacterSearch 
+                    initialData={searchData}
+                    onSearch={onSearch}
+                    onCancel={() => setIsSearchOpen(false)}
+                />
             )}
 
             <div>
