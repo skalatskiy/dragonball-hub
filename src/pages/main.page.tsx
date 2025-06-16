@@ -8,6 +8,7 @@ import {
 import type { Character } from "@/schemas/character.interface";
 import CharacterSearch from "@/components/character-search/character-search.component";
 import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
+import CharacterCard from "@/components/character-card/characted-card.component";
 
 
 export default function MainPage() {
@@ -73,11 +74,12 @@ export default function MainPage() {
                 />
             )}
 
-            <div>
+            <div className="flex flex-col gap-4">
                 {characters?.map((character) => (
-                    <div key={character.id}>
-                        {character.name}
-                    </div>
+                    <CharacterCard 
+                        key={character.id}
+                        character={character}
+                    />
                 ))}
             </div>
         </div>
