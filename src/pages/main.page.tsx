@@ -45,7 +45,7 @@ export default function MainPage() {
 
             <div>
                 {characters?.map((character) => (
-                    <div>
+                    <div key={character.id}>
                         {character.name}
                     </div>
                 ))}
