@@ -33,8 +33,8 @@ export default function CharacterSearch({initialData, onSearch, onCancel}: Chara
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="flex w-full justify-center p-4">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4">
                 <Label>Name</Label>
                 <Input
                     name="name" 
@@ -58,7 +58,7 @@ export default function CharacterSearch({initialData, onSearch, onCancel}: Chara
                     onChange={handleChange}
                     placeholder="Maximum Base Ki"
                 />
-                <div>
+                <div className="flex justify-between">
                     <Button type="submit">Search</Button>
                     <Button type="button" variant="secondary" onClick={handleClear}>Clear</Button>
                     <Button type="button" variant="outline" onClick={handleCancel}>Cancel</Button>
