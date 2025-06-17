@@ -29,3 +29,16 @@ docker-compose up --build
 ```
 
 The app should be present on http://localhost:3000
+
+
+## About files structure
+
+I really like to adapt the files structure depending on the scale of a project, where readability, maintenance and ease to find for what you are looking for should be mandatory. That means the fewer layers of depth, the better.
+
+
+Usually, on large enterprise projects where there are many features or complex business logic to manage, I split the folders based on those features or business entities. And inside each one, his own services, schemas, components, utils or whatever folder separation is required.
+
+For smaller ones like this one, where there is only one main entity which is Character, I leave it all at source level split by types: components, pages, schemas, services, etc.
+
+
+
