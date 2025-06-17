@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { BrushCleaning, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
     getAllCharacters as apiGetAllCharacters,
     searchCharacters as apiSearchCharacters
 } from "@/services/characters.service";
-import type { Character } from "@/schemas/character.interface";
 import CharacterSearch from "@/components/character-search/character-search.component";
-import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
 import CharacterCard from "@/components/character-card/characted-card.component";
+import SearchSummary from "@/components/search-summary/search-summary.component";
+import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
+import type { Character } from "@/schemas/character.interface";
 
 
 export default function MainPage() {
@@ -76,20 +77,10 @@ export default function MainPage() {
 
             <div className="flex-col p-4 gap-4">
                 {searchData && (
-                    <div className="flex pb-4 items-center justify-between">
-                        <div className="flex-col text-justify">
-                            Showing results for search: 
-                            {searchData.name && <div className="font-thin">Name: {searchData.name}</div>}
-                            {searchData.minBaseKi && <div className="font-thin">Min Base Ki: {searchData.minBaseKi}</div>}
-                            {searchData.maxBaseKi && <div className="font-thin">Max Base Ki: {searchData.maxBaseKi}</div>}
-                        </div>
-                        <div>
-                            <Button variant="ghost" onClick={() => setSearchData(undefined)}>
-                                <BrushCleaning />
-                                Reset
-                            </Button>
-                        </div>
-                    </div>
+                    <SearchSummary 
+                        searchData={searchData}
+                        onReset={() => setSearchData(undefined) }
+                    />
                 )}
 
                 <div className="flex flex-col gap-4">
