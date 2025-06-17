@@ -24,6 +24,7 @@ export async function searchCharacters(searchQuery: CharacterSearchQuery): Promi
 
     const response = await api.get<CharactersResponse | Character[]>(CHARACTERS_URL, { params });
 
+    // Required because on a filtered search it returns an array of characters directly 
     const characters: Character[] = Array.isArray(response.data) ? response.data : response.data.items;
 
     // TODO: As api does not have the option to filter by Ki, should be done manually here

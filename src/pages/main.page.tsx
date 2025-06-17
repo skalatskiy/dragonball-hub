@@ -5,10 +5,11 @@ import {
     getAllCharacters as apiGetAllCharacters,
     searchCharacters as apiSearchCharacters
 } from "@/services/characters.service";
-import type { Character } from "@/schemas/character.interface";
 import CharacterSearch from "@/components/character-search/character-search.component";
-import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
 import CharacterCard from "@/components/character-card/characted-card.component";
+import SearchSummary from "@/components/search-summary/search-summary.component";
+import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
+import type { Character } from "@/schemas/character.interface";
 
 
 export default function MainPage() {
@@ -20,7 +21,6 @@ export default function MainPage() {
     const [characters, setCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
-        console.log('useEffect - searchData: ', searchData);
         setLoading(true);
 
         if (searchData) {
@@ -74,13 +74,22 @@ export default function MainPage() {
                 />
             )}
 
-            <div className="flex flex-col gap-4">
-                {characters?.map((character) => (
-                    <CharacterCard 
-                        key={character.id}
-                        character={character}
+            <div className="flex-col p-4 gap-4">
+                {searchData && (
+                    <SearchSummary 
+                        searchData={searchData}
+                        onReset={() => setSearchData(undefined) }
                     />
-                ))}
+                )}
+
+                <div className="flex flex-col gap-4">
+                    {characters?.map((character) => (
+                        <CharacterCard 
+                            key={character.id}
+                            character={character}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )
