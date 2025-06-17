@@ -21,7 +21,6 @@ export default function MainPage() {
     const [characters, setCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
-        console.log('useEffect - searchData: ', searchData);
         setLoading(true);
 
         if (searchData) {
