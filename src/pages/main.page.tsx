@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { BrushCleaning, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
     getAllCharacters as apiGetAllCharacters,
@@ -74,13 +74,32 @@ export default function MainPage() {
                 />
             )}
 
-            <div className="flex flex-col gap-4">
-                {characters?.map((character) => (
-                    <CharacterCard 
-                        key={character.id}
-                        character={character}
-                    />
-                ))}
+            <div className="flex-col p-4 gap-4">
+                {searchData && (
+                    <div className="flex pb-4 items-center justify-between">
+                        <div className="flex-col text-justify">
+                            Showing results for search: 
+                            {searchData.name && <div className="font-thin">Name: {searchData.name}</div>}
+                            {searchData.minBaseKi && <div className="font-thin">Min Base Ki: {searchData.minBaseKi}</div>}
+                            {searchData.maxBaseKi && <div className="font-thin">Max Base Ki: {searchData.maxBaseKi}</div>}
+                        </div>
+                        <div>
+                            <Button variant="ghost" onClick={() => setSearchData(undefined)}>
+                                <BrushCleaning />
+                                Reset
+                            </Button>
+                        </div>
+                    </div>
+                )}
+
+                <div className="flex flex-col gap-4">
+                    {characters?.map((character) => (
+                        <CharacterCard 
+                            key={character.id}
+                            character={character}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )
