@@ -1,7 +1,8 @@
-import type { Character } from "@/schemas/character.interface";
-import api from "./api.service";
 import type { CharactersResponse } from "@/schemas/characters-response.interface";
 import type { CharacterSearchQuery } from "@/schemas/characters-search-query.interface";
+import type { Character } from "@/schemas/character.interface";
+import { dehumanize } from "@/utils/humanize.util";
+import api from "./api.service";
 
 const CHARACTERS_URL = '/characters';
 const ITEMS_PER_PAGE = 40;
@@ -27,7 +28,24 @@ export async function searchCharacters(searchQuery: CharacterSearchQuery): Promi
     // Required because on a filtered search it returns an array of characters directly 
     const characters: Character[] = Array.isArray(response.data) ? response.data : response.data.items;
 
-    // TODO: As api does not have the option to filter by Ki, should be done manually here
+    if (searchQuery.minBaseKi || searchQuery.maxBaseKi) {
+        return filterByKi(searchQuery, characters);
+    }
 
     return characters;
+}
+
+function filterByKi(searchQuery: CharacterSearchQuery, characters: Character[]): Character[] {
+    const filteredCharacters = characters.filter((character) => {
+        const kiNumber = dehumanize(character.ki);
+        const minKi = searchQuery.minBaseKi || 0;
+
+        if (searchQuery.maxBaseKi) {
+            return kiNumber >= minKi && kiNumber <= searchQuery.maxBaseKi;
+        }
+
+        return kiNumber >= minKi;
+    });
+
+    return filteredCharacters;
 }
