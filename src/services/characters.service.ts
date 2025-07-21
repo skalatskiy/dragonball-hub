@@ -5,7 +5,7 @@ import { dehumanize } from "@/utils/humanize.util";
 import api from "./api.service";
 
 const CHARACTERS_URL = '/characters';
-const ITEMS_PER_PAGE = 40;
+const ITEMS_PER_PAGE = 50;
 
 export async function getAllCharacters(): Promise<Character[]> {
     const params = {

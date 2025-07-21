@@ -5,7 +5,8 @@ const units: Record<string, number> = {
     trillion: 1e12,
     quadrillion: 1e15,
     quintillion: 1e18,
-    septillion: 1e24
+    septillion: 1e24,
+    googolplex: 10e100
 }
 
 export function dehumanize(humanizedValue: string): number {
@@ -13,7 +14,7 @@ export function dehumanize(humanizedValue: string): number {
         return parseFloat(cleanNumberString(humanizedValue));
     }
 
-    const regex = /([\d.,]+)\s*(billion|trillion|quadrillion|quintillion|septillion)/i;
+    const regex = /([\d.,]+)\s*(billion|trillion|quadrillion|quintillion|septillion|googolplex)/i;
     const match = humanizedValue.toLowerCase().match(regex);
 
     if (!match) {
@@ -32,5 +33,5 @@ function isJustNumber(string: string): boolean {
 }
 
 function cleanNumberString(stringNumber: string): string {
-   return stringNumber.replace(/[.\s]/g, '');
+   return stringNumber.replace(/[.,\s]/g, '');
 }
